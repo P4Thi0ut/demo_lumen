@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Customer;
 use App\Opportunity;
+use App\Owner;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -132,6 +133,64 @@ class APIController extends Controller
     		'success' => true,
     		'payload' => $opportunity
     	));
+		}
+		
+		   /*
+	** Get opportunity list
+	*/
+
+	public function owner_list (Request $request) {
+
+		$opportunities = Owner::all();
+
+    	return response()->json(array(
+    		'success' => true,
+    		'payload' => $opportunities
+    	));
     }
+
+    /*
+	** Add a new owner
+	*/
+
+    public function owner_create (Request $request) {
+
+    	$owner = new Owner;
+    	$owner->name = $request->input('name');
+    	$owner->created_at = Carbon::now();
+    	$owner->updated_at = Carbon::now();
+    	$owner->save();
+
+    	return response()->json(array(
+    		'success' => true,
+    		'payload' => $owner
+    	));
+    }
+
+    /*
+	** Update owner based on ID
+	*/
+
+    public function owner_update (Request $request, $owner_id) {
+
+    	$owner = Owner::find(intval($owner_id));
+
+    	if (is_null($owner)) {
+    		return response()->json(array(
+	    		'success' => false,
+	    		'error' => 'Owner not found'
+	    	), 500);
+    	}
+
+    	$owner->name = $request->input('name');
+    	$owner->updated_at = Carbon::now();
+    	$owner->save();
+
+    	return response()->json(array(
+    		'success' => true,
+    		'payload' => $owner
+    	));
+    }
+
 
 }
