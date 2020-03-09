@@ -13,11 +13,19 @@ class CreateOpportunityTable extends Migration
      */
     public function up()
     {
+
         Schema::create('opportunities', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 100)->nullable();
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();
+            $table->string('name', 100)->nullable();
+            $table->string('description', 100)->nullable();
+            $table->string('budget', 100)->nullable();
+            $table->string('stage', 100)->nullable();
+            $table->boolean('is_won', 100)->nullable();
+            $table->boolean('is_disabled')->nullable();
+            $table->string('customer_id', 100)->nullable();
+            // $table->string('user_id', 100)->nullable();
         });
     }
 
@@ -28,6 +36,6 @@ class CreateOpportunityTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('opportunity');
+        Schema::dropIfExists('opportunities');
     }
 }
